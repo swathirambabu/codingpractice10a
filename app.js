@@ -102,7 +102,7 @@ app.get("/states/",authenticateToken,async(request,response)=>{
 
 app.get("/states/:stateId/",authenticateToken,async(request,response)=>{
     const {stateId}=request.params;
-    const getStatusQuery=`select * from state where stateId='${stateId}';`;
+    const getStatusQuery=`select * from state where state_id='${stateId}';`;
    const statesArray= await db.get(getStatusQuery);
    request.send(convertStateObjectToResponseObject(statesArray));
 });
@@ -110,7 +110,7 @@ app.get("/states/:stateId/",authenticateToken,async(request,response)=>{
 //api 4 
 
 app.post("/districts/",authenticateToken,async(request,response)=>{
-    const{state_id,district_name,cases,cured,active,deaths}=request.body;
+    const{stateId,districtName,cases,cured,active,deaths}=request.body;
     const postDistrictQuery=`insert into district(state_id,district_name,cases,cured,active,deaths)
     values ( '${stateId}','${districtName}','${cases}','${cured}','${active}','${deaths}');`;
     await db.run(postDistrictQuery);
@@ -136,7 +136,7 @@ app.delete("/districts/:districtId/",authenticateToken,async(request,response)=>
 //api 7
 
 app.put("/districts/:districtId/",authenticateToken,async(request,response)=>{
-    const{state_id,district_name,cases,cured,active,deaths}=request.body;
+    const{stateId,districtName,cases,cured,active,deaths}=request.body;
     const{districtId}=request.params;
     const updateQuery=`update district 
     set  state_id='${stateId}',district_name= '${districtName}',
@@ -145,9 +145,9 @@ app.put("/districts/:districtId/",authenticateToken,async(request,response)=>{
     active='${active}',
     deaths='${deaths}' where district_id=${districtId};`;
     await db.run(updateQuery);
-    response.send("District Details updated");
+    response.send("District Details Updated");
 
-})
+});
 //api 8
 app.get("/states/:stateId/stats/",authenticateToken,async(request,response)=>{
     const {stateId}=request.params;
