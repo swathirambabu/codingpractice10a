@@ -38,7 +38,7 @@ const convertStateObjectToResponseObject=(dbObject)=>{
 const convertDistrictObjectToResponseObject=(dbObject)=>{
     return{
         districtId:dbObject.district_id,
-        districtName:dbObject.districtName,
+        districtName:dbObject.district_name,
         stateId:dbObject.state_id,
         cases:dbObject.cases,
         cured:dbObject.cured,
@@ -46,7 +46,7 @@ const convertDistrictObjectToResponseObject=(dbObject)=>{
         deaths:dbObject.deaths,
     };
 };
-function authenticateToken(request,response,next)=>{
+function authenticateToken(request,response,next) {
     let jwtToken;
     const authHeader=request.headers["authorization"];
     if(authHeader!==undefined){
@@ -120,7 +120,7 @@ app.post("/districts/",authenticateToken,async(request,response)=>{
 //api 5
 
 app.get("/districts/:districtId/",authenticateToken,async(request,response)=>{
-    cons{districtId}=request.params;
+    const{districtId}=request.params;
     const getDistrictQuery=`select * from district where district_id=${districtId};`;
     districtArray=await db.get(getDistrictQuery);
     response.send(convertDistrictObjectToResponseObject(districtArray));
@@ -128,7 +128,7 @@ app.get("/districts/:districtId/",authenticateToken,async(request,response)=>{
 
 //api 6 
 app.delete("/districts/:districtId/",authenticateToken,async(request,response)=>{
-    cons{districtId}=request.params;
+    const{districtId}=request.params;
     const getDistrictQuery=`delete from district where district_id=${districtId};`;
     districtArray=await db.get(getDistrictQuery);
     response.send("District Removed");
