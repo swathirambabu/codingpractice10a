@@ -77,7 +77,7 @@ app.post("/login/", async (request, response) => {
     const isPasswordMatched = await bcrypt.compare(password, dbUser.password);
     if (isPasswordMatched === true) {
       const payload = { username: username };
-      const jwtToken = jwt.sign(payload, "THE_SECRET_KEY");
+      const jwtToken = jwt.sign(payload, "MY_SECRET_TOKEN");
 
       response.send({ jwtToken });
     } else {
@@ -137,7 +137,7 @@ app.delete(
   async (request, response) => {
     const { districtId } = request.params;
     const getDistrictQuery = `delete from district where district_id=${districtId};`;
-    await db.get(getDistrictQuery);
+    await db.run(getDistrictQuery);
     response.send("District Removed");
   }
 );
